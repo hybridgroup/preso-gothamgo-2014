@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Full Stack Robotics - FullStack 2014</title>
+    <title>Go, Robots, Go! - GothamGo 2014</title>
 
     <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
     <meta name="author" content="Hakim El Hattab">
@@ -39,8 +39,9 @@
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
         <section>
-          <h1>Full Stack Robotics</h1>
-          <h3>hybridgroup.com</h3>
+          <h1>Gobot</h1>
+          <h2>Golang Powered Robotics</h2>
+          <h3>gobot.io</h3>
         </section>
 
         <section>
@@ -48,7 +49,7 @@
         </section>
 
         <section>
-          <h2>This is #fullstackcon</h2>
+          <h2>This is #gothamgo</h2>
         </section>
 
         <section>
@@ -84,23 +85,45 @@
         </section>
 
         <section>
-          <h2>Full Stack Robotics</h2>
+          <h2>Golang Robotics</h2>
         </section>
 
         <section>
           <h2>Starring</h2>
           <div class="image-container">
-            <img src="images/cylonjs-logo.png">
+            <img src="images/gobot-logo.png">
           </div>
         </section>
 
-        <section data-background="images/robot-pancakes.gif">
-          <h2>What Is 'Full Stack Robotics'?</h2>
+        <section>
+          <h2>
+            <blockquote>By its design, Go proposes an approach for the construction of system software on multicore machines</blockquote>
+            <figcaption>Golang FAQ</figcaption>
+          </h2>
+        </section>
+
+        <section>
+          <h2>
+            <blockquote>...the street finds its own uses for things</blockquote>
+            <figcaption>William Gibson</figcaption>
+          </h2>
         </section>
 
         <section>
           <div class="image-container">
             <img src="images/diagram-solution-of-things.png">
+          </div>
+        </section>
+
+        <section>
+          <div class="image-container">
+            <img src="images/arch-1.png">
+          </div>
+        </section>
+
+        <section>
+          <div class="image-container">
+            <img src="images/arch-2.png">
           </div>
         </section>
 
@@ -111,25 +134,7 @@
 
           <section>
             <pre><code data-trim>
-var Cylon = require('cylon');
-
-Cylon.robot({
-  connection: { 
-    name: 'arduino', 
-    adaptor: 'firmata', 
-    port: '/dev/ttyACM0' 
-  },
-  
-  device: { 
-    name: 'led', 
-    driver: 'led', 
-    pin: 13 
-  },
-
-  work: function(my) {
-    every((1).second(), function(){ my.led.toggle() });
-  }
-}).start();
+// code here...
             </code></pre>
           </section>
 
@@ -140,64 +145,12 @@ Cylon.robot({
 
         <section>
           <section>
-            <h2>Spark</h2>
+            <h2>Beaglebone Black</h2>
           </section>
 
           <section>
             <pre><code data-trim>
-var Cylon = require('cylon');
-
-Cylon.robot({
-  connection: {
-    name: 'spark', 
-    adaptor: 'spark',
-    accessToken: 'XXXYYYZZZ',
-    deviceId: '1234XXX7890'
-  },
-
-  device: {
-    name: 'led', 
-    driver: 'led', 
-    pin: 'D7'
-  },
-
-  work: function(my) {
-    every((1).second(), my.led.toggle);
-  }
-}).start();
-            </code></pre>
-          </section>
-
-          <section>
-            <img src="http://localhost:8080/?action=stream">  
-          </section>          
-        </section>
-
-        <section>
-          <section>
-            <h2>Intel Edison</h2>
-          </section>
-
-          <section>
-            <pre><code data-trim>
-var Cylon = require('cylon');
-
-Cylon.robot({
-  connection: {
-    name: 'edison', 
-    adaptor: 'intel-iot'
-  },
-
-  device: {
-    name: 'led', 
-    driver: 'led', 
-    pin: 4
-  },
-
-  work: function(my) {
-    every((1).second(), my.led.toggle);
-  }
-}).start();
+// code here...
             </code></pre>
           </section>
 
@@ -214,12 +167,17 @@ Cylon.robot({
 
           <section>
             <h2>To win a Sphero, tweet</h2>
-            <h2>@gosphero and @cylonjs</h2>
+            <h2>@gosphero and @gobotio</h2>
           </section>
 
           <section>
             <h2>To win a Spark Core, tweet</h2>
-            <h2>@spark_io and @cylonjs</h2>
+            <h2>@spark_io and @gobotio</h2>
+          </section>
+
+          <section>
+            <h2>To win an AR Drone, tweet</h2>
+            <h2>@ardrone and @gobotio</h2>
           </section>
         </section>
 
@@ -229,163 +187,22 @@ Cylon.robot({
         </section>
 
         <section>
-          <h2>Brewforce</h2>
+          <section>
+            <h2>Brewmaster</h2>
+          </section>
 
           <section>
             <div class="image-container">
-              <img src="images/diagram-connected-cylons1.jpg">
+              <img src="images/diagram-connected-cylons4.jpg">
             </div>
           </section>
 
           <section>
             <pre><code data-trim>
-var Cylon = require('cylon');
-
-Cylon.config({
-  api: {
-    host: '0.0.0.0', port: '8080', ssl:  false
-  }
-})
- 
-Cylon.api();
-
-Cylon.robot({
-  name: 'brewforce',
-  connections: [
-    { name: 'pebble', adaptor: 'pebble' },
-    { name: 'edison', adaptor: 'intel-iot' },
-    { 
-      name: 'sfcon', 
-      adaptor: 'force', 
-      sfuser: process.env.SF_USERNAME, 
-      sfpass: process.env.SF_SECURITY_TOKEN 
-    }
-  ],
-  devices: [
-    { name: 'pump', driver: 'direct-pin', pin: 6, connection: 'edison' },
-    { name: 'tap', driver: 'button', pin: 4, connection: 'edison' },
-    { name: 'fault', driver: 'button', pin: 2, connection: 'edison' },
-    { name: 'pebble', driver: 'pebble', connection: 'pebble' },
-    { name: 'salesforce', driver: 'force', connection: 'sfcon' }
-  ],
-  work: function() {
-    this.tap.on('press', function() {
-      if (!this.pumping) {
-        this.activatePump();
-      }
-    }.bind(this));
-
-    this.fault.on('press', function() {
-      this.reportFault();
-    }.bind(this));
-  },
-
-  served: 0,
-  pumping: false,
-  dispenserId: 5,
-  droneId: 4,
-
-  activatePump: function() {
-    this.pumping = true;
-    this.pump.digitalWrite(1);
-    this.served += 1;
-    var date = new Date(),
-        dateStr = date.toISOString(),
-        toSend = { 
-          dispenserId: this.dispenserId,
-          drinkId: this.served,
-          event: 'online',
-          eventTimestamp: dateStr,
-          details: 'dispenser'
-        };
-    
-    this.salesforce.post('/Drink/', toSend, function(err, data) {
-      console.log('Err:', err);
-      console.log('Data:', data);
-    });
-
-    setTimeout(function() {
-      this.pump.digitalWrite(0);
-      this.pumping = false;
-    }.bind(this), 2000);
-
-    console.log("Total customers served: " + toSend.drinkId);
-    this.pebble.send_notification("Total customers served: " + toSend.drinkId);    
-  },
-
-  reportFault: function() {
-    console.log("Pushing fault to SF.....");
-    var date = new Date(),
-        dateStr = date.toISOString(),
-        toSend = { dispenserId: this.dispenserId,
-                   drinkId: this.served,
-                   event: 'error',
-                   eventTimestamp: dateStr,
-                   details: 'dispenser'
-        };
-
-    this.salesforce.post('/Drink/', toSend, function(err, data) {
-      console.log('Err:', err);
-      console.log('Data:', data);
-    });
-
-    this.pebble.send_notification("there was an error");
-  },
-  
-  airDrop: function() {
-    var date = new Date();
-    var dateStr = date.toISOString();
-    var toSend = { 
-      dispenserId: this.droneId,
-      drinkId: this.served,
-      event: 'en route',
-      eventTimestamp: dateStr,
-      details: 'drone'
-    };
-
-    this.salesforce.post('/Drink/', toSend, function(err, data) {
-      console.log('airDrop Err:', err);
-      console.log('airDrop Data:', data);
-    });
-
-    this.pebble.send_notification("delivery sent by drone");
-  },
-
-  delivered: function() {
-    var date = new Date();
-    var dateStr = date.toISOString();
-    var toSend = { 
-      dispenserId: this.droneId,
-      drinkId: this.served,
-      event: 'delivery complete',
-      eventTimestamp: dateStr,
-      details: 'drone'
-    };
-
-    this.salesforce.post('/Drink/', toSend, function(err, data) {
-      console.log('delivered Err:', err);
-      console.log('delivered Data:', data);
-    });
-
-    this.pebble.send_notification("delivery sent by drone");
-  },
-
-  commands: function() {
-    return {
-      air_drop: this.airDrop,
-      delivered: this.delivered,
-      report_fault: this.reportFault,
-      activate_pump: this.activatePump
-    };
-  }  
-}).start();
+// code here...
             </code></pre>
           </section>
 
-        </section>
-
-        <section>
-          <h2>Connected Devices</h2>
         </section>
 
 
@@ -403,33 +220,7 @@ Cylon.robot({
 
           <section>
             <pre><code data-trim>
-  activatePump: function() {
-    this.pumping = true;
-    this.pump.digitalWrite(1);
-    this.served += 1;
-    var date = new Date(),
-        dateStr = date.toISOString(),
-        toSend = { 
-          dispenserId: this.dispenserId,
-          drinkId: this.served,
-          event: 'online',
-          eventTimestamp: dateStr,
-          details: 'dispenser'
-        };
-    
-    this.salesforce.post('/Drink/', toSend, function(err, data) {
-      console.log('Err:', err);
-      console.log('Data:', data);
-    });
-
-    setTimeout(function() {
-      this.pump.digitalWrite(0);
-      this.pumping = false;
-    }.bind(this), 2000);
-
-    console.log("Total customers served: " + toSend.drinkId);
-    this.pebble.send_notification("Total customers served: " + toSend.drinkId);    
-  },
+// code here...
             </code></pre>
           </section>
 
@@ -440,13 +231,13 @@ Cylon.robot({
 
 
         <section>
-          <h2>Wearables</h2>
-        </section>
-
-        <section>
           <section>
-            <h2>Wearable Demo</h2>
+            <h2>Wearable Notifications</h2>
             <h3>Intel Edison + Pebble + Salesforce</h3>
+          </section>
+
+          <section>
+            <h2>watchbot.io</h2>
           </section>
 
           <section>
@@ -457,24 +248,7 @@ Cylon.robot({
 
           <section>
             <pre><code data-trim>
-  reportFault: function() {
-    console.log("Pushing fault to SF.....");
-    var date = new Date(),
-        dateStr = date.toISOString(),
-        toSend = { dispenserId: this.dispenserId,
-                   drinkId: this.served,
-                   event: 'error',
-                   eventTimestamp: dateStr,
-                   details: 'dispenser'
-        };
-
-    this.salesforce.post('/Drink/', toSend, function(err, data) {
-      console.log('Err:', err);
-      console.log('Data:', data);
-    });
-
-    this.pebble.send_notification("there was an error");
-  },
+// code here...
             </code></pre>
           </section>
 
@@ -484,14 +258,20 @@ Cylon.robot({
         </section>
 
 
-        <section>
-          <h2>Mobile</h2>
-        </section>
 
         <section>
           <section>
-            <h2>Mobile Demo</h2>
+            <h2>Mobile Control</h2>
             <h3>Intel Edison + Pebble + Commander + Salesforce</h3>
+          </section>
+
+          <section>
+            <h2>commander.io</h2>
+          </section>
+
+          <section>
+            <h2>Common Protocol for Programming Physical Input/Output</h2>
+            <h3>cppp.io</h3>
           </section>
 
           <section>
@@ -502,25 +282,12 @@ Cylon.robot({
 
           <section>
             <pre><code data-trim>
-Cylon.config({
-  api: {
-    host: '0.0.0.0', port: '8080', ssl:  false
-  }
-})
- 
-Cylon.api();
+// code here...
             </code></pre>
           </section>
           <section>
             <pre><code data-trim>
-  commands: function() {
-    return {
-      air_drop: this.airDrop,
-      delivered: this.delivered,
-      report_fault: this.reportFault,
-      activate_pump: this.activatePump
-    };
-  }
+// code here...
             </code></pre>
           </section>
 
@@ -531,14 +298,9 @@ Cylon.api();
 
 
         <section>
-          <h2>Robots</h2>
-        </section>
-
-        <section>
           <section>
-            <h2>Drone Demo</h2>
-            <h3>Intel Edison + Salesforce + ARDrone + Commander + Pebble (Featuring Cylon.js)</h3>
-            <h3>DigiSpark (Featuring Gobot)</h3>
+            <h2>Drone Delivery</h2>
+            <h3>Intel Edison + Salesforce + ARDrone + Commander + Pebble + DigiSpark</h3>
           </section>
 
           <section>
@@ -549,129 +311,19 @@ Cylon.api();
 
           <section>
             <pre><code data-trim>
-  airDrop: function() {
-    var date = new Date();
-    var dateStr = date.toISOString();
-    var toSend = { 
-      dispenserId: this.droneId,
-      drinkId: this.served,
-      event: 'en route',
-      eventTimestamp: dateStr,
-      details: 'drone'
-    };
-
-    this.salesforce.post('/Drink/', toSend, function(err, data) {
-      console.log('airDrop Err:', err);
-      console.log('airDrop Data:', data);
-    });
-
-    this.pebble.send_notification("delivery sent by drone");
-  },
+// code here...
             </code></pre>
           </section>
 
           <section>
             <pre><code data-trim>
-var cylon = require('cylon');
-var restler = require('restler');
+// code here...
+            </code></pre>
+          </section>
 
-cylon.robot({
-  connections: [
-    {name: 'dualshock3', adaptor: 'joystick'}, 
-    {name: 'ardrone', adaptor: 'ardrone', port: '192.168.1.1'}
-  ],
-  devices: [
-    {name: 'controller', driver: 'dualshock-3', connection: 'dualshock3'}, 
-    {name: 'drone', driver: 'ardrone', connection: 'ardrone'}
-  ]
-})
-  .on("ready", function(bot) {
-    var offset = 32767.0;
-    var rightStick = {
-      x: 0.0,
-      y: 0.0
-    };
-    var leftStick = {
-      x: 0.0,
-      y: 0.0
-    };
-    bot.controller.on("circle:press", function() {
-      restler.get('http://192.168.1.1:3000/commands/drop_package')
-        .on('complete', function(result) {
-          console.log("response from drone: " + JSON.stringify(result));
-        });
-    });
-    bot.controller.on("square:press", function() {
-      bot.drone.takeoff();
-    });
-    bot.controller.on("triangle:press", function() {
-      bot.drone.hover();
-    });
-    bot.controller.on("x:press", function() {
-      bot.drone.land();
-    });
-    bot.controller.on("right_x:move", function(data) {
-      rightStick.x = data;
-    });
-    bot.controller.on("right_y:move", function(data) {
-      rightStick.y = data;
-    });
-    bot.controller.on("left_x:move", function(data) {
-      leftStick.x = data;
-    });
-    bot.controller.on("left_y:move", function(data) {
-      leftStick.y = data;
-    });
-
-    setInterval(function() {
-      var pair = leftStick;
-      if (pair.y < 5) {
-        bot.drone.front(validatePitch(pair.y, offset));
-      } else if (pair.y > 5) {
-        bot.drone.back(validatePitch(pair.y, offset));
-      }
-      if (pair.x > 5) {
-        bot.drone.right(validatePitch(pair.x, offset));
-      } else if (pair.x < 5) {
-        bot.drone.left(validatePitch(pair.x, offset));
-      }
-    }, 0);
-
-    setInterval(function() {
-      var pair = rightStick;
-      if (pair.y < 5) {
-        bot.drone.up(validatePitch(pair.y, offset));
-      } else if (pair.y > 5) {
-        bot.drone.down(validatePitch(pair.y, offset));
-      }
-      if (pair.x > 20) {
-        bot.drone.clockwise(validatePitch(pair.x, offset));
-      } else if (pair.x < 20) {
-        bot.drone.counterClockwise(validatePitch(pair.x, offset));
-      }
-    }, 0);
-
-    setInterval(function() {
-      bot.drone.hover();
-    }, 10);
-  })
-  .on('error', function(err) {
-    console.log(err);
-  })
-  .start();
-
-function validatePitch(data, offset) {
-  var value = Math.abs(data) / offset;
-  if (value >= 0.1) {
-    if (value <= 1.0) {
-      return Math.round(value * 100.0) / 100.0;
-    } else {
-      return 1.0;
-    }
-  } else {
-    return 0.0;
-  }
-}
+          <section>
+            <pre><code data-trim>
+// code here...
             </code></pre>
           </section>
 
@@ -692,8 +344,16 @@ function validatePitch(data, offset) {
 
 
         <section>
-          <h2>cylonjs.com</h2>
-          <h3>@cylonjs</h3>
+          <h2>watchbot.io</h2>
+        </section>
+
+        <section>
+          <h2>commander.io</h2>
+        </section>
+
+        <section>
+          <h2>gobot.io</h2>
+          <h3>@gobot.io</h3>
         </section>
 
         <section>
