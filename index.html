@@ -96,6 +96,24 @@
         </section>
 
         <section>
+          <h2>A Go Framework for Robotics & the Internet of Things</h2>
+        </section>
+
+        <section>
+          <h2>Multiple Hardware Devices</h2>
+        </section>
+
+        <section>
+          <h2>Different Hardware Devices</h2>
+        </section>
+
+        <section>
+          <h2>At the Same Time!</h2>
+        </section>
+
+
+
+        <section>
           <h2>
             <blockquote>By its design, Go proposes an approach for the construction of system software on multicore machines</blockquote>
             <figcaption>Golang FAQ</figcaption>
@@ -113,18 +131,21 @@
           <div class="image-container">
             <img src="images/gophercon-rob-pike-gobot.jpg">
           </div>
+          <h3>@rob_pike</h3>
         </section>
 
         <section>
           <div class="image-container">
             <img src="images/matt-aimonetti.jpg">
           </div>
+          <h3>@mattetti</h3>
         </section>
 
         <section>
           <div class="image-container">
             <img src="images/jeremy-saenz.jpg">
           </div>
+          <h3>@codegangsta</h3>
         </section>
 
         <section>
@@ -280,20 +301,13 @@ func main() {
               <img src="images/diagram-connected.jpg">
             </div>
           </section>
-
-          <section>
-            <pre><code data-trim>
-// code here...
-            </code></pre>
-          </section>
-
         </section>
 
 
         <section>
           <section>
             <h2>Drink Dispenser</h2>
-            <h3>Intel Edison + Salesforce</h3>
+            <h3>Intel Edison + MQTT</h3>
           </section>
 
           <section>
@@ -337,14 +351,15 @@ func main() {
     }
     pumping := false
     served := byte(0)
-    gobot.On(lever.Event("push"), func(data interface{}) {
+
+    m.On("startPump", func(data []byte) {
       if !pumping {
         pumping = true
         pump.DigitalWrite(1)
         served++
         dgram.Set("event", "online")
         dgram.Set("drink_id", fmt.Sprintf("%v", served))
-        m.Publish("pump", []byte(dgram.Encode()))
+        m.Publish("pumped", []byte(dgram.Encode()))
         gobot.After(2*time.Second, func() {
           pump.DigitalWrite(0)
           pumping = false
@@ -352,9 +367,17 @@ func main() {
       }
     })
 
-    gobot.On(fault.Event("push"), func(data interface{}) {
+    gobot.On(lever.Event("push"), func(data interface{}) {
+      m.Publish("pump", []byte{})
+    })
+
+    m.On("startFault", func(data []byte) {
       dgram.Set("event", "error")
       m.Publish("fault", []byte(dgram.Encode()))
+    })
+
+    gobot.On(fault.Event("push"), func(data interface{}) {
+      m.Publish("startFault", []byte{})
     })
   }
 
@@ -378,7 +401,7 @@ func main() {
         <section>
           <section>
             <h2>Wearable Notifications</h2>
-            <h3>Intel Edison + Pebble + Salesforce</h3>
+            <h3>Intel Edison + Pebble + MQTT</h3>
           </section>
 
           <section>
@@ -442,23 +465,26 @@ func hqRobot() *gobot.Robot {
         fmt.Println(err)
       }
     }
-
     m.On("pump", func(data []byte) {
-      post(data)
+      m.Publish("startPump", []byte{})
+    })
+
+    m.On("pumped", func(data []byte) {
+      go post(data)
       v, _ := url.ParseQuery(string(data))
       watch(fmt.Sprintf("Customers served: %v", v.Get("drink_id")))
     })
     m.On("fault", func(data []byte) {
-      post(data)
+      go post(data)
       watch("There was a fault!")
     })
     m.On("drone", func(data []byte) {
-      post(data)
+      go post(data)
       watch(fmt.Sprintf("Message from drone: %v", string(data)))
     })
     m.On("gcs", func(data []byte) {
       fmt.Println(string(data))
-      post(data)
+      go post(data)
     })
   }
 
@@ -471,6 +497,13 @@ func hqRobot() *gobot.Robot {
 func main() {
   gbot := gobot.NewGobot()
   api.NewAPI(gbot).Start()
+
+  gbot.AddCommand("pump", func(params map[string]interface{}) interface{} {
+    return gbot.Robot("mqtt").Connection("mqtt").(*mqtt.MqttAdaptor).Publish("startPump", []byte{})
+  })
+  gbot.AddCommand("fault", func(params map[string]interface{}) interface{} {
+    return gbot.Robot("mqtt").Connection("mqtt").(*mqtt.MqttAdaptor).Publish("startFault", []byte{})
+  })
 
   gbot.AddRobot(hqRobot())
   gbot.AddRobot(pebbleRobot())
@@ -490,7 +523,7 @@ func main() {
         <section>
           <section>
             <h2>Mobile Control</h2>
-            <h3>Intel Edison + Pebble + Commander + Salesforce</h3>
+            <h3>Intel Edison + Pebble + Commander + MQTT</h3>
           </section>
 
           <section>
@@ -510,12 +543,17 @@ func main() {
 
           <section>
             <pre><code data-trim>
-// code here...
-            </code></pre>
-          </section>
-          <section>
-            <pre><code data-trim>
-// code here...
+func main() {
+  gbot := gobot.NewGobot()
+  api.NewAPI(gbot).Start()
+
+  gbot.AddCommand("pump", func(params map[string]interface{}) interface{} {
+    return gbot.Robot("mqtt").Connection("mqtt").(*mqtt.MqttAdaptor).Publish("startPump", []byte{})
+  })
+  gbot.AddCommand("fault", func(params map[string]interface{}) interface{} {
+    return gbot.Robot("mqtt").Connection("mqtt").(*mqtt.MqttAdaptor).Publish("startFault", []byte{})
+  })
+...
             </code></pre>
           </section>
 
@@ -528,7 +566,7 @@ func main() {
         <section>
           <section>
             <h2>Drone Delivery</h2>
-            <h3>Intel Edison + Salesforce + ARDrone + Commander + Pebble + DigiSpark</h3>
+            <h3>Intel Edison + MQTT + ARDrone + Commander + Pebble + DigiSpark</h3>
           </section>
 
           <section>
@@ -696,6 +734,46 @@ func validatePitch(data float64, offset float64) float64 {
           </section>
 
           <section>
+            <pre><code data-trim>
+package main
+
+import (
+  "github.com/hybridgroup/gobot"
+  "github.com/hybridgroup/gobot/platforms/digispark"
+  "github.com/hybridgroup/gobot/platforms/gpio"
+  "github.com/hybridgroup/gobot/platforms/mqtt"
+)
+
+func main() {
+  gbot := gobot.NewGobot()
+
+  m := mqtt.NewMqttAdaptor("mqtt", "tcp://192.168.0.90:1883", "drone")
+  digisparkAdaptor := digispark.NewDigisparkAdaptor("digispark")
+
+  servo := gpio.NewServoDriver(digisparkAdaptor, "servo", "0")
+
+  work := func() {
+    servo.Move(10)
+    m.On("drop", func(data []byte) {
+      servo.Move(150)
+      m.Publish("drone", []byte("Dropped"))
+    })
+  }
+
+  robot := gobot.NewRobot("servoBot",
+    []gobot.Connection{digisparkAdaptor, m},
+    []gobot.Device{servo},
+    work,
+  )
+
+  gbot.AddRobot(robot)
+
+  gbot.Start()
+}
+            </code></pre>
+          </section>
+
+          <section>
             <img src="http://localhost:8080/?action=stream">  
           </section>
         </section>
@@ -721,7 +799,7 @@ func validatePitch(data float64, offset float64) float64 {
 
         <section>
           <h2>gobot.io</h2>
-          <h3>@gobot.io</h3>
+          <h3>@gobotio</h3>
         </section>
 
         <section>
